@@ -27,8 +27,7 @@ def test_frontend():
 def deposit_data():
     """Temporary endpoint to print sensor values. Must send JSON Object."""
     data = request.get_json(force=True)
-    print(data)
-    db_handler.test_db(data)
+    db_handler.put(['raw_sensor_data'], data, auto_id=True)
     return data
 
 
