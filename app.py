@@ -1,8 +1,15 @@
 """The main application that runs flask server."""
 
+import json
 from flask import Flask, request
 
 app = Flask(__name__)
+
+
+@app.route('/test_frontend', methods=['GET'])
+def test_frontend():
+    """Testing function for frontend."""
+    return json.dumps({"key": "value"})
 
 
 @app.route('/deposit_data', methods=['POST'])
