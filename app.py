@@ -4,8 +4,11 @@ import os
 import json
 from flask import Flask, request
 from src.sensehealth.database_handler import DBHandler
+from dotenv import load_dotenv
 
+app = Flask(__name__)
 
+load_dotenv()
 CONFIG = {
     "apiKey": "-none-",
     "serviceAccount": json.loads(os.environ['FIREBASE_API_KEY']),
@@ -14,7 +17,6 @@ CONFIG = {
     "storageBucket": "{}.appspot.com".format(os.environ['PROJECT_ID']),
 }
 db_handler = DBHandler(CONFIG)
-app = Flask(__name__)
 
 
 @app.route('/test_frontend', methods=['GET'])
