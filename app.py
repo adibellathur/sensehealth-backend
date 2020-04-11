@@ -8,7 +8,7 @@ from src.sensehealth.database_handler import DBHandler
 
 CONFIG = {
     "apiKey": "-none-",
-    "serviceAccount": os.environ['FIREBASE_API_KEY'],
+    "serviceAccount": json.loads(os.environ['FIREBASE_API_KEY']),
     "authDomain": "{}.firebaseapp.com".format(os.environ['PROJECT_ID']),
     "databaseURL": "https://{}.firebaseio.com".format(os.environ['PROJECT_ID']),
     "storageBucket": "{}.appspot.com".format(os.environ['PROJECT_ID']),
