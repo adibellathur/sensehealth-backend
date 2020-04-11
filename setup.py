@@ -6,6 +6,7 @@ from setuptools import setup
 required = [
     # please keep alphabetized
     "flask",
+    "flask-cors",
     "gunicorn",
     "pyrebase"
 ]

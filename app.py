@@ -5,8 +5,10 @@ import json
 from flask import Flask, request
 from src.sensehealth.database_handler import DBHandler
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 CONFIG = {
