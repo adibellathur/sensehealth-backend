@@ -5,6 +5,7 @@ from setuptools import setup
 
 required = [
     # please keep alphabetized
+    "dotenv",
     "flask",
     "flask-cors",
     "gunicorn",

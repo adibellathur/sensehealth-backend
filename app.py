@@ -3,7 +3,7 @@
 import os
 import json
 from flask import Flask, request
-from src.sensehealth.database_handler import DBHandler
+from src.sensehealth.database.database_handler import DBHandler
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -29,10 +29,17 @@ def test_frontend():
 
 @app.route('/deposit_data', methods=['POST'])
 def deposit_data():
-    """Temporary endpoint to print sensor values. Must send JSON Object."""
+    """Temporary endpoint to put JSON sensor values into database."""
     data = request.get_json(force=True)
     db_handler.put(['raw_sensor_data'], data, auto_id=True)
     return data
+
+
+@app.route('/fetch_all_data', methods=['GET'])
+def fetch_all_data():
+    """Temporary endpoint to print sensor values."""
+    sensor_data = db_handler.get(['raw_sensor_data'])
+    return sensor_data
 
 
 @app.route('/')

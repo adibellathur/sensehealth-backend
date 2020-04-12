@@ -42,3 +42,21 @@ class DBHandler(object):
         else:
             collection.set(data)
         return
+
+    def get(self, collection_path, raw_response=False):
+        """
+        Retrieve data from the firebase db.
+
+        Args:
+            collection_path (list[str]): a list of nested children to enter
+                before putting data into db.
+            raw_respone: Whether to get the unprocessed PyreResponse object
+                instead of a dict.
+        Returns:
+            dict[JSON] OR pyrebase.PyreResponse
+        """
+        collection = self.__find_collection(collection_path)
+        response = collection.get()
+        if not raw_response:
+            response = response.val()
+        return response
