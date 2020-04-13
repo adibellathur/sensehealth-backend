@@ -43,7 +43,10 @@ class DBHandler(object):
             collection.set(data)
         return
 
-    def get(self, collection_path, raw_response=False):
+    def get(self, collection_path,
+            raw_response=False,
+            sort_by_key=False,
+            in_range=None):
         """
         Retrieve data from the firebase db.
 
@@ -56,6 +59,10 @@ class DBHandler(object):
             dict[JSON] OR pyrebase.PyreResponse
         """
         collection = self.__find_collection(collection_path)
+        if sort_by_key:
+            collection.order_by_key()
+        if in_range:
+            collection.start_at(in_range[0]).end_at(in_range[1])
         response = collection.get()
         if not raw_response:
             response = response.val()

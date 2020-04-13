@@ -27,3 +27,12 @@ class User(object):
                 if sensor:
                     sensor.parse_data(data[key], timestamp, send_to_db=True)
         return
+
+    def fetch_user_data(self, sensors, start_time):
+        data = {}
+        factory = SensorFactory()
+        timestamp = str(int(time.time()))
+        for s in sensors:
+            sensor = factory.get_sensor(s, self._user_id, self._db_handler)
+            data[s] = sensor.fetch_data([start_time, timestamp])
+        return data

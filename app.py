@@ -37,6 +37,13 @@ def deposit_data():
     return data
 
 
+@app.route('/fetch_all_data', methods=['GET'])
+def fetch_all_data():
+    """Temporary endpoint to print sensor values."""
+    sensor_data = db_handler.get(['raw_sensor_data'])
+    return sensor_data
+
+
 @app.route('/update_user_data', methods=['POST'])
 def update_user_data():
     """Temporary endpoint to put JSON sensor values into database."""
@@ -44,12 +51,16 @@ def update_user_data():
     User(data['user_id'], db_handler).update_user_data(data)
     return data
 
+@app.route('/fetch_user_data', methods=['POST'])
+def fetch_user_data():
+    """Temporary endpoint to put JSON sensor values into database."""
+    req = request.get_json(force=True)
+    data = User(req['user_id'], db_handler).fetch_user_data(
+        req['sensors'],
+        req['start_time']
+    )
+    return data
 
-@app.route('/fetch_all_data', methods=['GET'])
-def fetch_all_data():
-    """Temporary endpoint to print sensor values."""
-    sensor_data = db_handler.get(['raw_sensor_data'])
-    return sensor_data
 
 
 @app.route('/')

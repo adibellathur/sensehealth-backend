@@ -24,4 +24,9 @@ class ECGSensor(Sensor):
 
     def fetch_data(self, timeframe):
         """Fetch data from database."""
-        return {}
+        data = self._db_handler.get(
+            ['user_data', self._user_id, 'ecg_sensor'],
+            sort_by_key=True,
+            in_range=timeframe
+        )
+        return data
