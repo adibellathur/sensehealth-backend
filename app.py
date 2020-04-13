@@ -1,11 +1,13 @@
 """The main application that runs flask server."""
-
 import os
 import json
+import time
 from flask import Flask, request
-from src.sensehealth.database.database_handler import DBHandler
 from dotenv import load_dotenv
 from flask_cors import CORS
+
+from src.sensehealth.database.database_handler import DBHandler
+from src.sensehealth.user.user import User
 
 app = Flask(__name__)
 CORS(app)
@@ -32,6 +34,14 @@ def deposit_data():
     """Temporary endpoint to put JSON sensor values into database."""
     data = request.get_json(force=True)
     db_handler.put(['raw_sensor_data'], data, auto_id=True)
+    return data
+
+
+@app.route('/update_user_data', methods=['POST'])
+def update_user_data():
+    """Temporary endpoint to put JSON sensor values into database."""
+    data = request.get_json(force=True)
+    User(data['user_id'], db_handler).update_user_data(data)
     return data
 
 
