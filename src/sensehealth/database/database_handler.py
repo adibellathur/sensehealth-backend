@@ -25,7 +25,7 @@ class DBHandler(object):
         })
         return
 
-    def put(self, collection_path, data, auto_id=False):
+    def put(self, collection_path, data, auto_id=True):
         """
         Put data into the firebase db.
 
@@ -37,11 +37,12 @@ class DBHandler(object):
                 present already in the data dict.
         """
         collection = self.__find_collection(collection_path)
+        response = None
         if auto_id:
-            collection.push(data)
+            response = collection.push(data)
         else:
-            collection.set(data)
-        return
+            response = collection.set(data)
+        return response
 
     def get(self, collection_path,
             raw_response=False,

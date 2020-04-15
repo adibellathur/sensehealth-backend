@@ -1,13 +1,14 @@
 """The main application that runs flask server."""
 import os
 import json
-import time
 from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 
 from src.sensehealth.database.database_handler import DBHandler
 from src.sensehealth.user.user import User
+from src.sensehealth.group.group_manager import GroupManager
+from src.sensehealth.group.group import Group
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +22,7 @@ CONFIG = {
     "storageBucket": "{}.appspot.com".format(os.environ['PROJECT_ID']),
 }
 db_handler = DBHandler(CONFIG)
+group_manager = GroupManager(db_handler)
 
 
 @app.route('/test_frontend', methods=['GET'])
@@ -31,15 +33,19 @@ def test_frontend():
 
 @app.route('/deposit_data', methods=['POST'])
 def deposit_data():
-    """Temporary endpoint to put JSON sensor values into database."""
-    data = request.get_json(force=True)
-    db_handler.put(['raw_sensor_data'], data, auto_id=True)
-    return data
+    """
+    Temporary endpoint to put JSON sensor values into database.
+
+    NOTE: DO NOT USE ANYMORE.
+    """
+    req = request.get_json(force=True)
+    db_handler.put(['raw_sensor_data'], req, auto_id=True)
+    return req
 
 
 @app.route('/fetch_all_data', methods=['GET'])
 def fetch_all_data():
-    """Temporary endpoint to print sensor values."""
+    """Temporary endpoint to print sensor values. NOTE: DO NOT USE ANYMORE."""
     sensor_data = db_handler.get(['raw_sensor_data'])
     return sensor_data
 
@@ -47,20 +53,55 @@ def fetch_all_data():
 @app.route('/update_user_data', methods=['POST'])
 def update_user_data():
     """Temporary endpoint to put JSON sensor values into database."""
-    data = request.get_json(force=True)
-    User(data['user_id'], db_handler).update_user_data(data)
-    return data
+    req = request.get_json(force=True)
+    User(req['user_id'], db_handler).update_user_data(req)
+    return req
 
-@app.route('/fetch_user_data', methods=['POST'])
+
+@app.route('/fetch_user_data', methods=['GET', 'POST'])
 def fetch_user_data():
-    """Temporary endpoint to put JSON sensor values into database."""
+    """Put user's JSON sensor values into database."""
     req = request.get_json(force=True)
     data = User(req['user_id'], db_handler).fetch_user_data(
         req['sensors'],
         req['start_time']
     )
-    return data
+    if data:
+        return data
+    return {}
 
+
+@app.route('/fetch_user_groups', methods=['GET', 'POST'])
+def fetch_user_groups():
+    """Put user's JSON sensor values into database."""
+    req = request.get_json(force=True)
+    data = User(req['user_id'], db_handler).fetch_user_groups()
+    if data:
+        return data
+    return {}
+
+
+@app.route('/create_group', methods=['POST'])
+def create_group():
+    """Create group in db."""
+    req = request.get_json(force=True)
+    data = group_manager.create_group(req)
+    if data:
+        return data
+    return {}
+
+
+@app.route('/fetch_group_data', methods=['GET', 'POST'])
+def fetch_group_data():
+    """Create group in db."""
+    req = request.get_json(force=True)
+    data = Group(req['group_id'], db_handler).get_group_data(
+        req['sensors'],
+        req['start_time']
+    )
+    if data:
+        return data
+    return {}
 
 
 @app.route('/')

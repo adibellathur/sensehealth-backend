@@ -29,10 +29,25 @@ class User(object):
         return
 
     def fetch_user_data(self, sensors, start_time):
+        """Fetch data on user from db."""
         data = {}
         factory = SensorFactory()
         timestamp = str(int(time.time()))
         for s in sensors:
             sensor = factory.get_sensor(s, self._user_id, self._db_handler)
             data[s] = sensor.fetch_data([start_time, timestamp])
+        return data
+
+    def add_group(self, group_id, group_name):
+        """Add group to user's known groups."""
+        self._db_handler.put(
+            ['user_data', self._user_id, 'groups', group_id],
+            group_name,
+            auto_id=False
+        )
+        return
+
+    def fetch_user_groups(self):
+        """Get groups user is an admin for."""
+        data = self._db_handler.get(['user_data', self._user_id, 'groups'])
         return data
