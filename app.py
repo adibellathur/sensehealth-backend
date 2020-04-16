@@ -64,7 +64,7 @@ def fetch_user_data():
     req = request.get_json(force=True)
     data = User(req['user_id'], db_handler).fetch_user_data(
         req['sensors'],
-        req['start_time']
+        str(req['start_time'])
     )
     if data:
         return data
@@ -97,7 +97,7 @@ def fetch_group_data():
     req = request.get_json(force=True)
     data = Group(req['group_id'], db_handler).get_group_data(
         req['sensors'],
-        req['start_time']
+        str(req['start_time'])
     )
     if data:
         return data
