@@ -47,6 +47,7 @@ class DBHandler(object):
     def get(self, collection_path,
             raw_response=False,
             sort_by_key=False,
+            limit_to_last=None,
             in_range=None):
         """
         Retrieve data from the firebase db.
@@ -64,6 +65,8 @@ class DBHandler(object):
             collection.order_by_key()
         if in_range:
             collection.start_at(in_range[0]).end_at(in_range[1])
+        if limit_to_last:
+            collection.limit_to_last(limit_to_last)
         response = collection.get()
         if not raw_response:
             response = response.val()

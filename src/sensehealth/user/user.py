@@ -1,6 +1,5 @@
 """User class to handle updating and fetching a users data."""
 import time
-
 from ..sensor.sensor_factory import SensorFactory
 
 
@@ -32,10 +31,9 @@ class User(object):
         """Fetch data on user from db."""
         data = {}
         factory = SensorFactory()
-        timestamp = str(int(time.time()))
         for s in sensors:
             sensor = factory.get_sensor(s, self._user_id, self._db_handler)
-            data[s] = sensor.fetch_data([start_time, timestamp])
+            data[s] = sensor.fetch_data(start_time)
         return data
 
     def add_group(self, group_id, group_name):
