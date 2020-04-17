@@ -27,6 +27,15 @@ class User(object):
                     sensor.parse_data(data[key], timestamp, send_to_db=True)
         return
 
+    def update_user_evaluation(self, data):
+        """Send checkup taken from phone, parses it, and sends to db."""
+        timestamp = str(int(time.time()))
+        self._db_handler.put(
+            ['user_data', self._user_id, 'evaluations'],
+            {timestamp: data[evaluation}])
+        )
+        return
+
     def fetch_user_data(self, sensors, start_time):
         """Fetch data on user from db."""
         data = {}
