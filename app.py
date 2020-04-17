@@ -57,6 +57,7 @@ def update_user_data():
     User(req['user_id'], db_handler).update_user_data(req)
     return req
 
+
 @app.route('/update_user_evaluation', methods=['POST'])
 def update_user_evaluation():
     """Temporary endpoint to put checkups into database."""
