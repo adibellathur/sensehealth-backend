@@ -68,3 +68,25 @@ class User(object):
             sensor = factory.get_sensor(s, self._user_id, self._db_handler)
             data[s] = sensor.get_data_overview(start_time)
         return data
+
+    def get_user_evaluations(self):
+        """Make things."""
+        evals = {}
+        curr_eval = self._db_handler.get(
+            ['user_data', self._user_id, 'evaluations'],
+            sort_by_key=True,
+            limit_to_last=1
+        )
+        av_eval = self._db_handler.get(
+            ['user_data', self._user_id, 'evaluations'],
+            sort_by_key=True,
+        )
+        if av_eval:
+            evals['average'] = []
+            for key in av_eval:
+                evals['average'].append(int(av_eval[key]))
+            evals['average'] = sum(evals['average']) / len(evals['average'])
+        if curr_eval:
+            for key in curr_eval:
+                evals['current'] = curr_eval[key]
+        return evals

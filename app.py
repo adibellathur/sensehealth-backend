@@ -125,6 +125,16 @@ def fetch_group_data():
     return {}
 
 
+@app.route('/get_group_overview', methods=['GET', 'POST'])
+def get_group_overview():
+    """Put user's JSON sensor values into database."""
+    req = request.get_json(force=True)
+    data = Group(req['group_id'], db_handler).get_group_overview()
+    if data:
+        return data
+    return {}
+
+
 @app.route('/')
 def index():
     """Root endpoint. Currently for testing."""
