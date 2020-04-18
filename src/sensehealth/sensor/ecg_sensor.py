@@ -16,6 +16,7 @@ class ECGSensor(Sensor):
     def parse_data(self, data, timestamp, send_to_db=True):
         """Parse JSON for relevant data."""
         # TODO: parse the data to include only useful things
+        print(data)
         parsed = {}
         parsed["HR"] = sum(data["HR"]) / len(data["HR"])
         parsed["PatchId"] = data["PatchId"]
