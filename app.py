@@ -79,6 +79,19 @@ def fetch_user_data():
     return {}
 
 
+@app.route('/get_user_overview', methods=['GET', 'POST'])
+def get_user_overview():
+    """Put user's JSON sensor values into database."""
+    req = request.get_json(force=True)
+    data = User(req['user_id'], db_handler).get_user_overview(
+        req['sensors'],
+        str(req['start_time'])
+    )
+    if data:
+        return data
+    return {}
+
+
 @app.route('/fetch_user_groups', methods=['GET', 'POST'])
 def fetch_user_groups():
     """Put user's JSON sensor values into database."""

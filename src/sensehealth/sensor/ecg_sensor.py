@@ -1,6 +1,7 @@
 """ECG Sensor Handler."""
 import time
 import random
+import numpy as np
 from .sensor import Sensor
 
 
@@ -49,3 +50,26 @@ class ECGSensor(Sensor):
                 in_range=[start_time, timestamp]
             )
         return data
+
+    def get_data_overview(self, start_time):
+        """Summarize data from database."""
+        overview = {}
+        hrs = []
+        oxs = []
+        temps = []
+        data = self.fetch_data(start_time)
+        for key in data:
+            if data[key]["HR"] != -1:
+                hrs.append(data[key]["HR"])
+            oxs.append(data[key]["pulse_oximeter"])
+            temps.append(data[key]["temp"])
+        hrs = np.array(hrs)
+        oxs = np.array(oxs)
+        temps = np.array(temps)
+        overview['max_temp'] = np.amax(temps)
+        overview['av_temp'] = np.average(temps)
+        overview['min_ox'] = np.amin(oxs)
+        overview['av_ox'] = np.average(oxs)
+        overview['max_HR'] = np.amax(hrs)
+        overview['av_HR'] = np.average(hrs)
+        return overview

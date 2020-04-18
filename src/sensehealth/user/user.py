@@ -59,3 +59,12 @@ class User(object):
         """Get groups user is an admin for."""
         data = self._db_handler.get(['user_data', self._user_id, 'groups'])
         return data
+
+    def get_user_overview(self, sensors, start_time):
+        """Make things."""
+        data = {}
+        factory = SensorFactory()
+        for s in sensors:
+            sensor = factory.get_sensor(s, self._user_id, self._db_handler)
+            data[s] = sensor.get_data_overview(start_time)
+        return data

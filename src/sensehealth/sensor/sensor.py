@@ -18,6 +18,11 @@ class Sensor(ABC):
         pass
 
     @abstractmethod
-    def fetch_data(self, timeframe):
+    def fetch_data(self, start_time):
+        """Fetch data from database."""
+        pass
+
+    @abstractmethod
+    def get_data_overview(self, start_time):
         """Fetch data from database."""
         pass
