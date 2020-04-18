@@ -48,10 +48,12 @@ class Group(object):
                 "-1"
             )
             data['user_overviews'][mem] = user_data
-            if user_data['ecg_sensor']["max_HR"] > 110 or \
-                    user_data['ecg_sensor']["max_temp"] > 100.0 or \
-                    user_data['ecg_sensor']["min_ox"] < 0.93:
-                data['at_risk_members'] = {mem: user_data['ecg_sensor']}
+            if user_data['ecg_sensor']["max_HR"] > 110:
+                data['at_risk_hr'] = {mem: user_data['ecg_sensor']}
+            if user_data['ecg_sensor']["max_temp"] > 100.0:
+                data['at_risk_temp'] = {mem: user_data['ecg_sensor']}
+            if user_data['ecg_sensor']["min_ox"] < 0.93:
+                data['at_risk_ox'] = {mem: user_data['ecg_sensor']}
             user_eval = User(
                 mem,
                 self._db_handler
