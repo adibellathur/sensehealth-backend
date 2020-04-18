@@ -31,8 +31,8 @@ class User(object):
         """Send checkup taken from phone, parses it, and sends to db."""
         timestamp = str(int(time.time()))
         self._db_handler.put(
-            ['user_data', self._user_id, 'evaluations'],
-            {timestamp: data['evaluation']},
+            ['user_data', self._user_id, 'evaluations', timestamp],
+            data['evaluation'],
             auto_id=False
         )
         return
