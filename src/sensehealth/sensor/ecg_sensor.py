@@ -20,10 +20,10 @@ class ECGSensor(Sensor):
         parsed = {}
         parsed["HR"] = sum(data["HR"]) / len(data["HR"])
         parsed["PatchId"] = data["PatchId"]
-        if data["ECG LEAD A"]:
+        if "ECG LEAD A" in data:
             parsed["ECG_CH_A"] = data["ECG LEAD A"]
             parsed["ECG_CH_B"] = data["ECG LEAD B"]
-        if data["ECG_CH_A"]:
+        if "ECG_CH_A" in data:
             parsed["ECG_CH_A"] = data["ECG_CH_A"]
             parsed["ECG_CH_B"] = data["ECG_CH_B"]
         parsed["LeadStatus"] = data["LeadStatus"]
