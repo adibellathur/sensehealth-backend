@@ -20,8 +20,12 @@ class ECGSensor(Sensor):
         parsed = {}
         parsed["HR"] = sum(data["HR"]) / len(data["HR"])
         parsed["PatchId"] = data["PatchId"]
-        parsed["ECG_CH_A"] = data["ECG CH A"]
-        parsed["ECG_CH_B"] = data["ECG CH B"]
+        if data["ECG LEAD A"]:
+            parsed["ECG_CH_A"] = data["ECG LEAD A"]
+            parsed["ECG_CH_B"] = data["ECG LEAD B"]
+        if data["ECG_CH_A"]:
+            parsed["ECG_CH_A"] = data["ECG_CH_A"]
+            parsed["ECG_CH_B"] = data["ECG_CH_B"]
         parsed["LeadStatus"] = data["LeadStatus"]
         parsed["temp"] = random.uniform(96.0, 101.0)
         parsed["pulse_oximeter"] = random.uniform(0.93, 0.99)
