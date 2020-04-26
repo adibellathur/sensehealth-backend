@@ -64,7 +64,9 @@ class ECGSensor(Sensor):
         temps = []
         data = self.fetch_data(start_time)
         for key in data:
-            if data[key]["HR"] != -1:
+            if (type(data[key]) is dict) and\
+                    "HR" in data[key] and\
+                    data[key]["HR"] != -1:
                 hrs.append(data[key]["HR"])
             oxs.append(data[key]["pulse_oximeter"])
             temps.append(data[key]["temp"])
