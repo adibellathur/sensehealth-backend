@@ -37,6 +37,23 @@ class User(object):
         )
         return
 
+    def fetch_user_evaluation(self, start_time):
+        """Fetch checkups user has already given."""
+        if start_time == "-1":
+            data = self._db_handler.get(
+                ['user_data', self._user_id, 'evaluations'],
+                sort_by_key=True,
+                limit_to_last=1
+            )
+        else:
+            timestamp = str(int(time.time()))
+            data = self._db_handler.get(
+                ['user_data', self._user_id, 'evaluations'],
+                sort_by_key=True,
+                in_range=[start_time, timestamp]
+            )
+        return data
+
     def fetch_user_data(self, sensors, start_time):
         """Fetch data on user from db."""
         data = {}

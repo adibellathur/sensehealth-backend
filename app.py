@@ -57,6 +57,18 @@ def update_user_data():
     User(req['user_id'], db_handler).update_user_data(req)
     return req
 
+@app.route('/fetch_user_data', methods=['GET', 'POST'])
+def fetch_user_data():
+    """Put user's JSON sensor values into database."""
+    req = request.get_json(force=True)
+    data = User(req['user_id'], db_handler).fetch_user_data(
+        req['sensors'],
+        str(req['start_time'])
+    )
+    if data:
+        return data
+    return {}
+
 
 @app.route('/update_user_evaluation', methods=['POST'])
 def update_user_evaluation():
@@ -66,12 +78,11 @@ def update_user_evaluation():
     return req
 
 
-@app.route('/fetch_user_data', methods=['GET', 'POST'])
-def fetch_user_data():
+@app.route('/fetch_user_evaluation', methods=['GET', 'POST'])
+def fetch_user_evaluation():
     """Put user's JSON sensor values into database."""
     req = request.get_json(force=True)
-    data = User(req['user_id'], db_handler).fetch_user_data(
-        req['sensors'],
+    data = User(req['user_id'], db_handler).fetch_user_evaluation(
         str(req['start_time'])
     )
     if data:
