@@ -29,6 +29,12 @@ class ECGSensor(Sensor):
         parsed["LeadStatus"] = data["LeadStatus"]
         parsed["temp"] = random.uniform(96.0, 101.0)
         parsed["pulse_oximeter"] = random.uniform(0.93, 0.99)
+
+        if parsed["HR"] > 100 or parsed["HR"] < 60:
+            send_sms()
+        elif parsed["temp"] > 99 or parsed["pulse_oximeter"] < .9:
+            send_sms()
+
         if self._user_id and send_to_db:
             self._db_handler.put([
                 'user_data',
@@ -78,3 +84,21 @@ class ECGSensor(Sensor):
         overview['max_HR'] = np.amax(hrs)
         overview['av_HR'] = np.average(hrs)
         return overview
+
+    from twilio.rest import Client
+    import os
+    def send_sms(self):
+        account_sid = os.environ['TWILIO_ACCOUNT_SID']
+        auth_token = os.environ['TWILIO_AUTH_TOKEN']
+        _to = os.environ['TO_NUMBER']
+        _from = os.environ['FROM_NUMBER']
+
+        client = Client(account_sid, auth_token)
+
+        message = client.messages \
+                        .create(
+                             body="You may have been exposed to COVID-19, please follow your Health Protocol immediately",
+                             from_=_from,
+                             to=_to
+                         )
+        # print(message.sid)
