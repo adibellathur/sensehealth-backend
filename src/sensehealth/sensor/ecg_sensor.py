@@ -30,9 +30,9 @@ class ECGSensor(Sensor):
         parsed["temp"] = random.uniform(96.0, 101.0)
         parsed["pulse_oximeter"] = random.uniform(0.93, 0.99)
 
-        if parsed["HR"] > 100 or parsed["HR"] < 60:
+        if parsed["HR"] > 120 or parsed["HR"] < 60:
             send_sms()
-        elif parsed["temp"] > 99 or parsed["pulse_oximeter"] < .9:
+        elif parsed["temp"] > 101 or parsed["pulse_oximeter"] < .9:
             send_sms()
 
         if self._user_id and send_to_db:
