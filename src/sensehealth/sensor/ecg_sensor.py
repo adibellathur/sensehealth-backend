@@ -7,20 +7,20 @@ from .sensor import Sensor
 from twilio.rest import Client
 
 def send_sms(self):
-    account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    auth_token = os.environ['TWILIO_AUTH_TOKEN']
-    _to = os.environ['TO_NUMBER']
-    _from = os.environ['FROM_NUMBER']
-
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-         body="You may have been exposed to COVID-19, \
-         please follow your Health Protocol immediately",
-         from_=_from,
-         to=_to
-     )
-    # print(message.sid)
+    # account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    # auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    # _to = os.environ['TO_NUMBER']
+    # _from = os.environ['FROM_NUMBER']
+    #
+    # client = Client(account_sid, auth_token)
+    #
+    # message = client.messages.create(
+    #      body="You may have been exposed to COVID-19, \
+    #      please follow your Health Protocol immediately",
+    #      from_=_from,
+    #      to=_to
+    #  )
+     return
 
 
 class ECGSensor(Sensor):
