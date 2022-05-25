@@ -18,7 +18,7 @@ protobuf==3.11.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycryptodome==3.9.7
-PyJWT==1.7.1
+PyJWT==2.4.0
 Pyrebase4==4.3.0
 python-dotenv==0.12.0
 python-jwt==2.0.1
